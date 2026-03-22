@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LangChain 实战 — 学习路线图</title>
+<style>
+:root {
+  --bg: #08080c;
+  --surface: rgba(255,255,255,0.03);
+  --surface-hover: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.06);
+  --text: #ededef;
+  --text-secondary: rgba(255,255,255,0.55);
+  --text-tertiary: rgba(255,255,255,0.3);
+  --accent-1: #f59e0b;
+  --accent-2: #ef4444;
+  --accent-gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  --green: #34d399;
+  --amber: #fbbf24;
+  --red: #f87171;
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  --font-sans: -apple-system, 'Inter', system-ui, sans-serif;
+  --radius: 12px;
+  --mastered-pct: 0%;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  padding: 40px 20px 80px;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(245,158,11,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 80% 80%, rgba(239,68,68,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.container { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 48px;
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+}
+.header-text { flex: 1; }
+.topic-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 6px;
+  padding: 3px 10px;
+  margin-bottom: 12px;
+}
+h1 {
+  font-size: 26px;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+.meta-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+/* Progress Ring */
+.progress-ring { flex-shrink: 0; position: relative; width: 80px; height: 80px; }
+.progress-ring svg { transform: rotate(-90deg); }
+.progress-ring .track { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 6; }
+.progress-ring .fill {
+  fill: none;
+  stroke: url(#gradient);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.progress-ring .label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+.progress-ring .sub { font-size: 9px; color: var(--text-tertiary); letter-spacing: 0.05em; }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 48px;
+  --mastered-pct: 0%;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--green) 0%,
+    var(--green) var(--mastered-pct),
+    var(--border) var(--mastered-pct),
+    var(--border) 100%
+  );
+}
+.node {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.node:hover { background: var(--surface-hover); transform: translateX(4px); }
+.node.mastered { border-color: rgba(52,211,153,0.25); }
+.node.active {
+  border-color: rgba(245,158,11,0.4);
+  box-shadow: 0 0 24px rgba(245,158,11,0.08);
+}
+.node.upcoming { opacity: 0.45; }
+
+.node-dot {
+  position: absolute;
+  left: -41px;
+  top: 22px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+}
+.node.mastered .node-dot { border-color: var(--green); background: rgba(52,211,153,0.1); color: var(--green); }
+.node.active .node-dot {
+  border-color: var(--accent-1);
+  background: rgba(245,158,11,0.1);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(245,158,11,0); }
+}
+
+.node-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.node-num { font-size: 11px; color: var(--text-tertiary); font-family: var(--font-mono); }
+.node-title { font-size: 15px; font-weight: 600; flex: 1; }
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.badge-mastered { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+.badge-active { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+.badge-upcoming { background: rgba(255,255,255,0.04); color: var(--text-tertiary); border: 1px solid var(--border); }
+
+.node-meta { display: flex; align-items: center; gap: 12px; }
+.node-desc { font-size: 12px; color: var(--text-secondary); flex: 1; }
+.score { font-size: 12px; font-family: var(--font-mono); color: var(--text-secondary); white-space: nowrap; }
+.mini-bar { height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+.mini-bar-fill { height: 100%; border-radius: 2px; background: var(--accent-gradient); transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.node.mastered .mini-bar-fill { background: linear-gradient(90deg, var(--green), var(--green)); }
+
+/* Footer */
+.footer {
+  margin-top: 36px;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.footer-label { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.footer-bar { height: 6px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+.footer-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent-gradient);
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+.footer-stats { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+<svg style="position:absolute;width:0;height:0">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="var(--accent-1)"/>
+      <stop offset="100%" stop-color="var(--accent-2)"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="container">
+  <div class="header">
+    <div class="header-text">
+      <div class="topic-tag">LangChain 实战</div>
+      <h1>从零到构建 AI Agent</h1>
+      <div class="meta-chips">
+        <span class="chip">🗓 2026-03-21</span>
+        <span class="chip">📊 Beginner</span>
+        <span class="chip">🔗 前置：AI Agent 理论 + 原理实现</span>
+      </div>
+    </div>
+    <div class="progress-ring">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle class="track" cx="40" cy="40" r="35"/>
+        <circle class="fill" id="progressFill" cx="40" cy="40" r="35"/>
+      </svg>
+      <div class="label">
+        <span id="pctLabel">0%</span>
+        <span class="sub">掌握</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline" id="timeline" style="--mastered-pct: 0%">
+
+    <div class="node active">
+      <div class="node-dot">▶</div>
+      <div class="node-header">
+        <span class="node-num">01</span>
+        <span class="node-title">LangChain 架构与 LCEL 概览</span>
+        <span class="badge badge-active">进行中</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">为什么需要框架？LCEL 的管道哲学，组件系统总览</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="node upcoming">
+      <div class="node-dot"></div>
+      <div class="node-header">
+        <span class="node-num">02</span>
+        <span class="node-title">ChatModel + PromptTemplate：第一条 Chain</span>
+        <span class="badge badge-upcoming">未开始</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">用 <code>|</code> 管道符连接组件，感受 LCEL 的流水线之美</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="node upcoming">
+      <div class="node-dot"></div>
+      <div class="node-header">
+        <span class="node-num">03</span>
+        <span class="node-title">Runnable 协议：.invoke() / .stream() / .batch()</span>
+        <span class="badge badge-upcoming">未开始</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">LangChain 组件的统一接口，流式输出与批量调用</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="node upcoming">
+      <div class="node-dot"></div>
+      <div class="node-header">
+        <span class="node-num">04</span>
+        <span class="node-title">工具定义：@tool 装饰器与参数 Schema</span>
+        <span class="badge badge-upcoming">未开始</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">用 Python 函数定义 Agent 工具，自动生成 JSON Schema</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="node upcoming">
+      <div class="node-dot"></div>
+      <div class="node-header">
+        <span class="node-num">05</span>
+        <span class="node-title">构建 Agent：create_tool_calling_agent + AgentExecutor</span>
+        <span class="badge badge-upcoming">未开始</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">把提示词 + 模型 + 工具组合成可运行的 Agent</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="node upcoming">
+      <div class="node-dot"></div>
+      <div class="node-header">
+        <span class="node-num">06</span>
+        <span class="node-title">对话记忆：RunnableWithMessageHistory</span>
+        <span class="badge badge-upcoming">未开始</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">为 Agent 接入短期记忆，管理多轮对话状态</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="node upcoming">
+      <div class="node-dot"></div>
+      <div class="node-header">
+        <span class="node-num">07</span>
+        <span class="node-title">RAG 链：Embedding + VectorStore + Retriever</span>
+        <span class="badge badge-upcoming">未开始</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">让 Agent 检索知识库文档，实现真正的"有知识"的 Agent</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="node upcoming">
+      <div class="node-dot"></div>
+      <div class="node-header">
+        <span class="node-num">08</span>
+        <span class="node-title">迈向 LangGraph：AgentExecutor 的局限与图结构优势</span>
+        <span class="badge badge-upcoming">未开始</span>
+      </div>
+      <div class="node-meta">
+        <span class="node-desc">理解何时需要 LangGraph，为下一阶段学习搭好桥</span>
+      </div>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:0%"></div></div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-label">整体进度</div>
+    <div class="footer-bar">
+      <div class="footer-bar-fill" id="overallBar" style="width: 0%"></div>
+    </div>
+    <div class="footer-stats">
+      <span>0 / 8 概念已掌握</span>
+      <span>0%</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const masteredCount = 0;
+  const totalCount = 8;
+  const pct = Math.round(masteredCount / totalCount * 100);
+  const circumference = 2 * Math.PI * 35;
+
+  setTimeout(() => {
+    const fill = document.getElementById('progressFill');
+    fill.style.strokeDashoffset = circumference - (pct / 100) * circumference;
+    document.getElementById('pctLabel').textContent = pct + '%';
+    document.getElementById('overallBar').style.width = pct + '%';
+  }, 300);
+</script>
+</body>
+</html>
