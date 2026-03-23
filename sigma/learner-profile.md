@@ -19,7 +19,7 @@ Updated: 2026-03-23
 | LangChain 实战 | 8/8 | 2026-03-21 | 快速掌握 LCEL 管道哲学、Runnable 协议、RAG 流程。能独立写出完整 Agent 和 RAG 链。TypeScript 代码逻辑推演准确。 | 注意 Document 类型不是 string，需要 .pageContent 取内容 |
 | AI Agent 与系统交互 | 5/5 | 2026-03-23 | 对系统架构的物理边界、解耦设计（MCP）和安全机制（沙箱/权限）有非常准确的直觉。 | 无 |
 | AI Agent 权限与沙箱工程实现 | 4/4 | 2026-03-23 | 极强的 TypeScript 工程能力，对安全漏洞（如原型链污染）和异步控制流（Promise 控制反转）理解深刻。 | 无 |
-| Rule、Skill、MCP 核心区别 | 4/4 | 2026-03-23 | 精准掌握三层架构：Rule（LLM推理约束）、Skill（Agent执行流程）、MCP（运行时能力边界）。 | 无 |
+| Sub-Agent 架构 | 10/10 | 2026-03-23 | 极强的架构直觉，能将现实管理学映射到分布式系统代码中。对 Map-Reduce、状态提炼、权限隔离理解极深。 | 无 |
 
 ## Metacognition
 - Self-assessment accuracy: well-calibrated，略微偏向 under-confident（掌握得很好但自评为 mostly）。随着代码逻辑的深入，自信心明显增强。
