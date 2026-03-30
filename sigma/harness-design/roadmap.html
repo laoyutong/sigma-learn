@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harness Design Roadmap</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --text: #f8fafc;
+            --primary: #38bdf8;
+            --success: #22c55e;
+            --pending: #64748b;
+            --progress: #3b82f6;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        .roadmap {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 600px;
+            width: 100%;
+        }
+        .node {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .node.in-progress { border-color: var(--progress); box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+        .node.mastered { border-color: var(--success); background: rgba(34, 197, 94, 0.1); }
+        .node.not-started { opacity: 0.6; }
+        
+        .node-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            text-transform: uppercase;
+        }
+        .status-in-progress { background: var(--progress); }
+        .status-mastered { background: var(--success); }
+        .status-not-started { background: var(--pending); }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.5s;
+        }
+        
+        .pulse {
+            animation: pulse-animation 2s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0px rgba(59, 130, 246, 0.4); }
+            100% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+        }
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--pending);
+        }
+    </style>
+</head>
+<body>
+    <h1>Harness Design 学习路线图</h1>
+    <div class="roadmap">
+        <div class="node mastered">
+            <div class="node-header">
+                <strong>1. Context Engineering & Resets</strong>
+                <span class="status-badge status-mastered">已掌握</span>
+            </div>
+            <div>如何通过“清空重来”解决模型在长任务中的焦虑感。</div>
+        </div>
+        <div class="node mastered">
+            <div class="node-header">
+                <strong>2. Task Decomposition (Sprints)</strong>
+                <span class="status-badge status-mastered">已掌握</span>
+            </div>
+            <div>将宏大目标拆解为可交付、可验证的“冲刺”阶段。</div>
+        </div>
+        <div class="node mastered">
+            <div class="node-header">
+                <strong>3. The GAN Pattern</strong>
+                <span class="status-badge status-mastered">已掌握</span>
+            </div>
+            <div>Generator 与 Evaluator 的博弈：为什么外部评价是质量跃迁的关键。</div>
+        </div>
+        <div class="node mastered">
+            <div class="node-header">
+                <strong>4. Verification & Playwright</strong>
+                <span class="status-badge status-mastered">已掌握</span>
+            </div>
+            <div>自动化 QA：让 Agent 像真人一样测试 UI、API 和数据库。</div>
+        </div>
+        <div class="node mastered">
+            <div class="node-header">
+                <strong>5. Sprint Contracts</strong>
+                <span class="status-badge status-mastered">已掌握</span>
+            </div>
+            <div>在写代码前达成共识：定义“完成”的客观标准。</div>
+        </div>
+        <div class="node mastered">
+            <div class="node-header">
+                <strong>6. Harness Evolution</strong>
+                <span class="status-badge status-mastered">已掌握</span>
+            </div>
+            <div>瘦身法则：随着模型原生能力增强，如何精简脚手架。</div>
+        </div>
+    </div>
+    <footer>
+        <p>当前进度: 1 / 6 概念 | 总体掌握度: 2%</p>
+    </footer>
+</body>
+</html>
